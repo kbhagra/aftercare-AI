@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type ReactNode, type ChangeEvent } from "react";
+import { useEffect, useState, type ReactNode, type ChangeEvent } from "react";
 import Link from "next/link";
 
 type Resource = {
@@ -30,6 +30,12 @@ export default function AppPage() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<CarePlanResult | null>(null);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const fromLanding = params.get("instructions") ?? "";
+    if (fromLanding.trim()) setInstructions(fromLanding);
+  }, []);
 
   const handleGenerate = async () => {
     setLoading(true);
