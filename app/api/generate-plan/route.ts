@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSuggestedResources } from "@/data/resources";
+import { getSuggestedResources } from "@/app/data/resources";
 
 type NemotronResponse = {
   plain_summary: string;
@@ -8,6 +8,10 @@ type NemotronResponse = {
   questions_for_doctor: string[];
   next_step: string;
   urgency: string;
+  /** When urgency is emergency or high: one sentence of immediate action advice. */
+  urgent_advice?: string;
+  /** When urgency is emergency or high: short bullets explaining why (e.g. from discharge notes). */
+  urgent_rationale?: string[];
 };
 
 export async function POST(req: NextRequest) {
@@ -32,6 +36,7 @@ Your job:
 - Suggest questions for the doctor
 - Recommend the next step
 - Estimate urgency level
+- When urgency is "emergency" or "high", also provide urgent_advice (one clear sentence: what to do right now) and urgent_rationale (2-4 short bullets citing what in the discharge instructions triggered this, e.g. "Discharge instructions mention risk of wound reopening")
 
 Rules:
 - Do not diagnose
@@ -40,14 +45,16 @@ Rules:
 - If severe signs appear like chest pain, severe bleeding, trouble breathing, or loss of consciousness, urgency should be "emergency"
 - Return valid JSON only
 
-Return this exact schema:
+Return this exact schema (include urgent_advice and urgent_rationale only when urgency is "emergency" or "high"):
 {
   "plain_summary": "string",
   "today_checklist": ["string", "string"],
   "warning_signs": ["string", "string"],
   "questions_for_doctor": ["string", "string"],
   "next_step": "string",
-  "urgency": "low | medium | high | emergency"
+  "urgency": "low | medium | high | emergency",
+  "urgent_advice": "optional: one sentence immediate action when emergency/high",
+  "urgent_rationale": ["optional: short bullet citing discharge notes", "optional: ..."]
 }
 `;
 
@@ -98,9 +105,23 @@ Return this exact schema:
 
     const suggestedResources = getSuggestedResources(parsed.urgency);
 
+    const isUrgent = ["emergency", "high"].includes(
+      (parsed.urgency || "").toLowerCase().trim()
+    );
+    const urgent_advice =
+      parsed.urgent_advice ?? (isUrgent ? parsed.next_step : undefined);
+    const urgent_rationale =
+      parsed.urgent_rationale && parsed.urgent_rationale.length > 0
+        ? parsed.urgent_rationale
+        : isUrgent
+          ? parsed.warning_signs ?? []
+          : undefined;
+
     return NextResponse.json({
       ...parsed,
       suggested_resources: suggestedResources,
+      ...(urgent_advice != null && { urgent_advice }),
+      ...(urgent_rationale != null && { urgent_rationale }),
     });
   } catch (error) {
     console.error(error);
