@@ -1,4 +1,4 @@
-=# AfterCare AI
+## AfterCare AI
 
 **AfterCare AI** is an NVIDIA Nemotron-powered caregiver support platform that helps families understand hospital discharge instructions, create a short-term recovery plan, identify warning signs, and take the right next step with more confidence.
 
