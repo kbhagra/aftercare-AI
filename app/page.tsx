@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode, type ChangeEvent } from "react";
 
 type Resource = {
   type: string;
@@ -76,7 +76,7 @@ export default function HomePage() {
 
             <textarea
               value={instructions}
-              onChange={(e) => setInstructions(e.target.value)}
+              onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setInstructions(e.target.value)}
               placeholder="Example: My father just came home after surgery. He needs to take antibiotics twice a day, walk every few hours, drink water, avoid lifting, and follow up in 3 days..."
               rows={12}
               className="w-full rounded-xl border border-neutral-300 p-4 outline-none focus:border-black"
@@ -152,7 +152,7 @@ export default function HomePage() {
             <Card title="Suggested Resources">
               <div className="space-y-3">
                 {result.suggested_resources?.length > 0 ? (
-                  result.suggested_resources.map((resource, index) => (
+                  result.suggested_resources.map((resource: Resource, index: number) => (
                     <div
                       key={index}
                       className="rounded-xl border border-neutral-200 p-4"
@@ -180,7 +180,7 @@ function Card({
   children,
 }: {
   title: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   return (
     <div className="rounded-2xl border bg-white p-6 shadow-sm">
