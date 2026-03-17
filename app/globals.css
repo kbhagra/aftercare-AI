@@ -25,6 +25,152 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+/* Design system helpers for the supplied mock */
+:root {
+  --aftercare-blue: #0866ff;
+  --aftercare-blue-dark: #0550cc;
+  --aftercare-teal: #06b6d4;
+  --aftercare-mint: #10d9b0;
+  --aftercare-green: #22c55e;
+  --aftercare-red: #ef4444;
+  --aftercare-amber: #f59e0b;
+  --aftercare-purple: #8b5cf6;
+  --aftercare-text: #1c1e21;
+  --aftercare-text-muted: #65676b;
+  --aftercare-text-light: #8a8d91;
+  --aftercare-border: rgba(0, 0, 0, 0.08);
+  --aftercare-nav-h: 60px;
+}
+
+@keyframes aftercare-bgshift {
+  0% {
+    filter: hue-rotate(0deg) saturate(1);
+  }
+  50% {
+    filter: hue-rotate(8deg) saturate(1.1);
+  }
+  100% {
+    filter: hue-rotate(-5deg) saturate(0.95);
+  }
+}
+
+@keyframes aftercare-floatorb {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(20px, -30px) scale(1.05);
+  }
+  66% {
+    transform: translate(-15px, 20px) scale(0.97);
+  }
+}
+
+@keyframes aftercare-floatic {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-12px) rotate(2deg);
+  }
+  75% {
+    transform: translateY(8px) rotate(-2deg);
+  }
+}
+
+@keyframes aftercare-floatcard {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-1deg);
+  }
+  50% {
+    transform: translateY(-18px) rotate(1deg);
+  }
+}
+
+.aftercare-hero-bg {
+  background:
+    radial-gradient(ellipse 100% 80% at 50% -10%, #dbeafe 0%, transparent 55%),
+    radial-gradient(ellipse 70% 60% at 0% 50%, #d1fae5 0%, transparent 50%),
+    radial-gradient(ellipse 60% 70% at 100% 60%, #e0f2fe 0%, transparent 50%),
+    radial-gradient(ellipse 50% 50% at 50% 100%, #f0fdf4 0%, transparent 60%),
+    linear-gradient(180deg, #f0f9ff 0%, #e8f5f0 35%, #f0f4ff 65%, #fafffe 100%);
+  animation: aftercare-bgshift 12s ease-in-out infinite alternate;
+}
+
+.aftercare-orb {
+  border-radius: 9999px;
+  filter: blur(60px);
+  opacity: 0.5;
+  animation: aftercare-floatorb 8s ease-in-out infinite;
+}
+
+.aftercare-float-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  animation: aftercare-floatic 6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.aftercare-float-card {
+  border-radius: 20px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.1);
+  animation: aftercare-floatcard 7s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.aftercare-glass-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  position: relative;
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(200, 245, 240, 0.7) 40%,
+    rgba(8, 102, 255, 0.25) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow:
+    0 8px 32px rgba(8, 102, 255, 0.18),
+    0 2px 8px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+  backdrop-filter: blur(16px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.aftercare-glass-icon::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 4px;
+  width: 55%;
+  height: 30%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0));
+  border-radius: 4px;
+  transform: rotate(-6deg);
+}
+
 @keyframes aftercare-float {
   0% {
     transform: translate3d(0, 0, 0);
@@ -59,7 +205,11 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .aftercare-float,
-  .aftercare-drift {
+  .aftercare-drift,
+  .aftercare-orb,
+  .aftercare-float-icon,
+  .aftercare-float-card,
+  .aftercare-hero-bg {
     animation: none;
   }
 }

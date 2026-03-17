@@ -12,6 +12,12 @@ type NemotronResponse = {
   urgent_advice?: string;
   /** When urgency is emergency or high: short bullets explaining why (e.g. from discharge notes). */
   urgent_rationale?: string[];
+  /** A lightweight 72-hour timeline grouped by day. */
+  care_plan_72h?: {
+    day1?: string[];
+    day2?: string[];
+    day3?: string[];
+  };
 };
 
 export async function POST(req: NextRequest) {
@@ -37,6 +43,7 @@ Your job:
 - Recommend the next step
 - Estimate urgency level
 - When urgency is "emergency" or "high", also provide urgent_advice (one clear sentence: what to do right now) and urgent_rationale (2-4 short bullets citing what in the discharge instructions triggered this, e.g. "Discharge instructions mention risk of wound reopening")
+- Create a short 72-hour timeline grouped by day (day1/day2/day3). Each day should have 3-6 short tasks.
 
 Rules:
 - Do not diagnose
@@ -54,7 +61,12 @@ Return this exact schema (include urgent_advice and urgent_rationale only when u
   "next_step": "string",
   "urgency": "low | medium | high | emergency",
   "urgent_advice": "optional: one sentence immediate action when emergency/high",
-  "urgent_rationale": ["optional: short bullet citing discharge notes", "optional: ..."]
+  "urgent_rationale": ["optional: short bullet citing discharge notes", "optional: ..."],
+  "care_plan_72h": {
+    "day1": ["string", "string"],
+    "day2": ["string", "string"],
+    "day3": ["string", "string"]
+  }
 }
 `;
 
