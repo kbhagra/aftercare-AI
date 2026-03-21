@@ -1,92 +1,16 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useMemo, useState, type ChangeEvent } from "react";
+import { useState, type ChangeEvent } from "react";
+import { SiteHeader } from "@/components/SiteHeader";
 
 export default function LandingPage() {
   const router = useRouter();
   const [draftInstructions, setDraftInstructions] = useState("");
-  const instructionsParam = useMemo(() => encodeURIComponent(draftInstructions.trim()), [draftInstructions]);
-
-  const goToApp = () => {
-    const trimmed = draftInstructions.trim();
-    if (!trimmed) {
-      router.push("/app");
-      return;
-    }
-    router.push(`/app?instructions=${encodeURIComponent(trimmed)}`);
-  };
 
   return (
     <main className="min-h-screen bg-white text-[var(--aftercare-text)]">
-      {/* NAV */}
-      <header className="fixed left-0 right-0 top-0 z-[1000] h-[var(--aftercare-nav-h)] border-b border-[var(--aftercare-border)] bg-white/90 backdrop-blur-[20px]">
-        <div className="mx-auto flex h-full max-w-[1080px] items-center gap-6 px-7">
-          <Link href="/" className="mr-6 flex shrink-0 items-center gap-2.5 no-underline">
-            <div className="aftercare-glass-icon" aria-hidden>
-              <svg viewBox="0 0 20 20" fill="none" className="relative z-[1] h-5 w-5">
-                <path
-                  d="M10 2.5C10 2.5 4 6.5 4 11C4 13.8 6.7 16 10 16C13.3 16 16 13.8 16 11C16 6.5 10 2.5 10 2.5Z"
-                  fill="url(#g1)"
-                  stroke="rgba(8,102,255,0.3)"
-                  strokeWidth="0.8"
-                />
-                <path
-                  d="M8 10.5h1.5v1.5h1.5v-1.5H12.5v-1.5H11v-1.5H9.5v1.5H8z"
-                  fill="white"
-                />
-                <defs>
-                  <linearGradient id="g1" x1="4" y1="2" x2="16" y2="17" gradientUnits="userSpaceOnUse">
-                    <stop offset="0%" stopColor="#60a5fa" />
-                    <stop offset="100%" stopColor="#0550cc" />
-                  </linearGradient>
-                </defs>
-              </svg>
-            </div>
-            <span className="text-[17px] font-bold text-[var(--aftercare-text)]">AfterCare AI</span>
-          </Link>
-
-          <nav className="flex flex-1 items-center gap-0">
-            <a className="rounded-lg px-3.5 py-2 text-sm font-medium text-[var(--aftercare-text-muted)] hover:bg-black/5 hover:text-[var(--aftercare-text)]" href="/#how-it-works">
-              How it works
-            </a>
-            <a className="rounded-lg px-3.5 py-2 text-sm font-medium text-[var(--aftercare-text-muted)] hover:bg-black/5 hover:text-[var(--aftercare-text)]" href="/#appSec">
-              Care Plans
-            </a>
-            <a className="rounded-lg px-3.5 py-2 text-sm font-medium text-[var(--aftercare-text-muted)] hover:bg-black/5 hover:text-[var(--aftercare-text)]" href="/#resources">
-              Resources
-            </a>
-          </nav>
-
-          <div className="ml-auto flex items-center gap-3">
-            <button
-              className="rounded-lg px-3.5 py-2 text-sm font-medium text-[var(--aftercare-text-muted)] hover:bg-black/5 hover:text-[var(--aftercare-text)]"
-              type="button"
-              onClick={() => router.push("/app")}
-            >
-              Explore
-            </button>
-            <button
-              className="rounded-lg px-3.5 py-2 text-sm font-medium text-[var(--aftercare-text-muted)] hover:bg-black/5 hover:text-[var(--aftercare-text)]"
-              type="button"
-              onClick={() => document.getElementById("support")?.scrollIntoView({ behavior: "smooth" })}
-            >
-              Support
-            </button>
-            <button
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-black/5 text-[var(--aftercare-text)] hover:bg-black/10"
-              type="button"
-              aria-label="Profile"
-            >
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden>
-                <circle cx="9" cy="7" r="3" stroke="currentColor" strokeWidth="1.5" />
-                <path d="M3 16c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-              </svg>
-            </button>
-          </div>
-        </div>
-      </header>
+      <SiteHeader />
 
       {/* Hero */}
       <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden pt-[var(--aftercare-nav-h)]">
@@ -259,7 +183,7 @@ export default function LandingPage() {
           <a href="/#" className="hover:text-[var(--aftercare-text)]">Privacy</a>
           <a href="/#" className="hover:text-[var(--aftercare-text)]">Terms</a>
           <a href="/#" className="hover:text-[var(--aftercare-text)]">Accessibility</a>
-          <a href="/#support" className="hover:text-[var(--aftercare-text)]">Help Center</a>
+          <a href="/support" className="hover:text-[var(--aftercare-text)]">Help Center</a>
         </div>
         <div className="text-[12px] text-[var(--aftercare-text-light)]">
           © {new Date().getFullYear()} AfterCare AI · Powered by NVIDIA Nemotron

@@ -32,6 +32,16 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    if (!process.env.NVIDIA_API_KEY?.trim()) {
+      return NextResponse.json(
+        {
+          error:
+            "Care plan API is not configured. Set NVIDIA_API_KEY in the server environment (e.g. .env.local or Vercel env vars).",
+        },
+        { status: 503 }
+      );
+    }
+
     const systemPrompt = `
 You are AfterCare AI, a caregiver support agent for the first 72 hours after hospital discharge.
 

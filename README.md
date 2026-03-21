@@ -2,6 +2,14 @@
 
 AfterCare AI is a NVIDIA Nemotron-powered caregiver support agent that helps families understand discharge instructions, create a 72-hour care plan, detect warning signs, and take the right next step.
 
+## Environment variables
+
+1. Copy the template: `cp .env.example .env.local`
+2. Fill in **NVIDIA** and **Supabase** values in `.env.local` (this file is **gitignored** — do not commit it).
+3. On Vercel, add the same keys under **Project → Settings → Environment Variables** (use **Sensitive** for `NVIDIA_API_KEY`).
+
+See **`SECURITY.md`** for handling leaked keys and what never to put in the repo.
+
 ## Getting Started
 
 First, run the development server:
