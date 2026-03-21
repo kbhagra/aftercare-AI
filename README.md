@@ -1,46 +1,106 @@
-# aftercare-AI
+## AfterCare AI
 
-AfterCare AI is a NVIDIA Nemotron-powered caregiver support agent that helps families understand discharge instructions, create a 72-hour care plan, detect warning signs, and take the right next step.
+**AfterCare AI** is an NVIDIA Nemotron-powered caregiver support platform that helps families understand hospital discharge instructions, create a short-term recovery plan, identify warning signs, and take the right next step with more confidence.
 
-## Environment variables
+## Problem
 
-1. Copy the template: `cp .env.example .env.local`
-2. Fill in **NVIDIA** and **Supabase** values in `.env.local` (this file is **gitignored** — do not commit it).
-3. On Vercel, add the same keys under **Project → Settings → Environment Variables** (use **Sensitive** for `NVIDIA_API_KEY`).
+The first few days after a patient returns home from the hospital can be confusing and stressful. Discharge instructions are often dense, medical, and hard to follow, especially for family caregivers without clinical training.
 
-See **`SECURITY.md`** for handling leaked keys and what never to put in the repo.
+Caregivers are left trying to answer questions like:
 
-## Getting Started
+- What matters most today?
+- What symptoms are normal, and what are warning signs?
+- What should I ask the doctor?
+- What should I do next if something gets worse?
 
-First, run the development server:
+## Solution
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+AfterCare AI turns discharge instructions into clear, caregiver-friendly guidance.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+A user can paste discharge notes into the website, and the system will generate:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- a plain-language summary
+- a short checklist for immediate care
+- warning signs to monitor
+- suggested follow-up questions for the doctor
+- an urgency level
+- recommended next-step resources
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Why It Matters
 
-## Learn More
+AfterCare AI is designed to support caregivers during one of the most vulnerable moments in recovery: the first 72 hours after discharge.
 
-To learn more about Next.js, take a look at the following resources:
+By reducing confusion and surfacing the most important care actions, the platform helps families feel more prepared, informed, and supported.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Key Features
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Plain-language discharge summaries**  
+  Simplifies medical instructions into understandable language.
 
-## Deploy on Vercel
+- **72-hour care planning**  
+  Highlights the most important care tasks for the immediate recovery period.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Warning sign detection**  
+  Surfaces symptoms and red flags that may require medical attention.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Doctor question generation**  
+  Suggests helpful follow-up questions a caregiver can ask.
+
+- **Urgency-based next steps**  
+  Classifies the situation and recommends what to do next.
+
+- **Resource guidance**  
+  Suggests relevant support options such as urgent care, pharmacy, or hospital follow-up.
+
+## Agentic Workflow
+
+AfterCare AI is structured as an agent-style system rather than a simple chatbot.
+
+### 1. Parser Agent
+Extracts important information from discharge instructions:
+- medications
+- tasks
+- restrictions
+- follow-up care
+- warning signs
+
+### 2. Planner Agent
+Builds a short-term caregiver plan:
+- what to do today
+- what to watch for
+- what to prepare next
+
+### 3. Risk Agent
+Assesses urgency based on the instructions and symptoms described.
+
+### 4. Resource Agent
+Maps urgency to the most relevant next-step support resources.
+
+## Tech Stack
+
+- **Frontend:** Next.js
+- **Language:** TypeScript
+- **AI Model:** NVIDIA Nemotron
+- **Deployment:** Vercel
+- **Database / backend utilities:** Supabase (optional / extendable)
+
+## Project Structure
+
+```text
+.
+├── app/
+│   ├── api/
+│   │   └── generate-plan/
+│   │       └── route.ts
+│   ├── globals.css
+│   ├── layout.tsx
+│   └── page.tsx
+├── data/
+│   └── resources.ts
+├── lib/
+│   └── supabase.ts
+├── public/
+├── .env.local
+├── package.json
+├── tsconfig.json
+└── vercel.json
